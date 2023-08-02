@@ -1,6 +1,7 @@
 "use client";
 import { Page, View, Text } from "@react-pdf/renderer";
 import React, { useEffect, useState } from "react";
+import { trpc } from "./trpc";
 
 export const Sample: React.FC = () => {
 	return (
@@ -14,13 +15,15 @@ export const Sample: React.FC = () => {
 };
 
 const Child: React.FC = () => {
-	const data = useFetchData("/api/sample");
-	console.log({ data });
+	const d = useFetchData("/api/sample");
+	const { data } = trpc.hello.useQuery();
+	console.log({ data: d });
 
 	return (
 		<View>
 			<Text>child</Text>
-			{data && <Text>Data: {JSON.stringify(data)}</Text>}
+			{d && <Text>Data: {JSON.stringify(d)}</Text>}
+			{data && <Text>{data.greeting}</Text>}
 		</View>
 	);
 };
