@@ -14,7 +14,8 @@ export const Sample: React.FC = () => {
 };
 
 const Child: React.FC = () => {
-	const data = useFetchData("https://jsonplaceholder.typicode.com/posts/1");
+	const data = useFetchData("/api/sample");
+	console.log({ data });
 
 	return (
 		<View>
@@ -24,15 +25,13 @@ const Child: React.FC = () => {
 	);
 };
 
-const useFetchData = (url: string) => {
+export const useFetchData = (url: string) => {
 	const [data, setData] = useState(null);
 
 	useEffect(() => {
 		fetch(url)
 			.then((response) => response.json())
-			.then((json) => {
-				setTimeout(() => setData(json), 3000);
-			});
+			.then((json) => setData(json));
 	}, [url]);
 
 	return data;
